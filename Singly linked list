@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node{
+  int data;
+  struct Node* next;
+}Node;
+
+Node* createNode(int data){
+  Node* newNode=(Node*)malloc(sizeof(Node));
+  newNode->data=data;
+  newNode->next=NULL;
+  return newNode;
+}
+void insert_at_first(int data, Node **head){
+  Node* newNode=createNode(data);
+  newNode->next= *head;
+  *head=newNode;
+}
+
+void insert_at_end(int data,Node** head){
+  Node* newNode=createNode(data);
+  newNode->next=NULL;
+  if(*head==NULL){
+    insert_at_first(data,head);
+    return;
+  };
+  Node* demo=*head;
+  while(demo->next!=NULL){
+    demo=demo->next;
+  };
+  demo->next=newNode;
+}
+
+void insert_at_index(int index,int data, Node** head){
+  Node* newNode=createNode(data);
+  if(index==0){
+    insert_at_first(data,head);
+    return;
+  }
+  Node* demo=*head;
+  for(int i=0;demo!=NULL && i<index-1;i++){
+    demo=demo->next;
+  };
+  if(demo==NULL){
+    printf("index out of range");
+    free(newNode);
+    return;
+  }
+  newNode->next=demo->next;
+  demo->next=newNode; 
+}
+void Display_list(Node** head){
+  Node* demo=*head;
+  if(demo==NULL){
+    printf("List is empty");
+    return;
+  }
+  printf("%d",demo->data);
+  while(demo->next!=NULL){
+    demo=demo->next;
+    printf(" %d\n",demo->data);
+    
+  }
+}
+
+void Delete_Node(int index,Node** head){
+  Node* demo=*head;
+  if(demo==NULL){
+    printf("INDEX OUT OF RANGE");
+    return;
+  }
+  if(index==0){
+    *head=demo->next;
+    free(demo);
+    return;
+  }
+  Node* prev=NULL;
+  for (int i = 0; demo != NULL && i < index; i++) {
+      prev = demo;
+      demo = demo->next;
+  }
+   
+  prev->next=demo->next;
+  free(demo);
+}
+
+int main() {
+  Node* head=NULL;
+  insert_at_first(10,&head);
+  insert_at_first(67,&head);
+  insert_at_end(69,&head);
+  insert_at_index(1, 49,&head);
+  Display_list(&head);
+  Delete_Node(1,&head);
+  Display_list(&head);
+  return 0;
+}
