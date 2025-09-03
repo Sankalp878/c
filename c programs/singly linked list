@@ -19,12 +19,14 @@ void insert_at_first(int data, Node **head){
 }
 
 void insert_at_end(int data,Node** head){
-  Node* newNode=createNode(data);
-  newNode->next=NULL;
+  
+  
   if(*head==NULL){
     insert_at_first(data,head);
     return;
   };
+ Node* newNode=createNode(data);
+ newNode->next=NULL;
   Node* demo=*head;
   while(demo->next!=NULL){
     demo=demo->next;
